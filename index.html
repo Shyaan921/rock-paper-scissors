@@ -6,109 +6,67 @@
     <title>Rock Paper Scissors</title>
 </head>
 <body>
+    <button class="buttons">rock</button>
+    <button class="buttons">paper</button>
+    <button class="buttons">scissors</button>
+    <div id="roundResult"></div>
+    <div id="score"></div>
     <script>
+
+        let playerWins = 0;
+        let computerWins = 0;
         function getComputerChoice() {
-            let number = Math.floor(Math.random() * 3)
-            if (number === 0) {
-                return "rock"
-            } else if (number === 1) {
-                return "paper"
+            const list = ['rock', 'paper', 'scissors'];
+            return list[Math.floor(Math.random() * 3)]
+        };
+
+        function playRound(playerChoice, computerChoice) {
+            let div = document.querySelector('#roundResult')
+            if (playerChoice === computerChoice) {
+                div.textContent = 'Round Tied!!';
+            } else if (playerChoice === "rock" && computerChoice === "scissors") {
+                div.textContent = 'Player Wins';
+                playerWins++;
+            } else if (playerChoice === 'paper' && computerChoice === 'rock') {
+                div.textContent = 'Player Wins';
+                playerWins++;
+            } else if (playerChoice === 'scissors' && computerChoice === 'paper') {
+                div.textContent = 'Player Wins';
+                playerWins++;
             } else {
-                return "scissors"
+                div.textContent = 'Computer Wins';
+                computerWins++;
+            }
+        };
+
+        function disableButtons() {
+            let btns = document.querySelectorAll('.buttons')
+            for (let i = 0; i < btns.length; i++) {
+                btns[i].disabled = true;
             }
         }
 
-        function playRound(playerSelection = prompt("Choose: ").toLowerCase(), computerSelection = getComputerChoice()) { 
-            if (playerSelection === computerSelection) {
-                return "Same"
-            } else if (playerSelection === "rock" && computerSelection === "paper") {
-                return "player"
-            } else if (playerSelection === "rock" && computerSelection === "scissors") {
-                return "computer"
-            } else if (playerSelection === "paper" && computerSelection === "scissors") {
-                return "player"
-            } else if (playerSelection === "paper" && computerSelection === "rock") {
-                return "computer"
-            } else if (playerSelection === "scissors" && computerSelection === "rock") {
-                return "player"
-            } else if (playerSelection === "scissors" && computerSelection === "paper") {
-                return "computer"
-            }
-        }   
+        let btns = document.querySelectorAll('.buttons')
+        for (let i = 0; i < btns.length; i++) {
+            btns[i].addEventListener('click', () => {
+                playRound(btns[i].textContent, computerChoice = getComputerChoice());
 
-        function game() {
-            let computerWins = 0;
-            let playerWins = 0;
-            
+                let div = document.querySelector('#score')
+                div.textContent = `Computer: ${computerWins} , Player: ${playerWins}`
 
-            // Winner of each game 
-            game1 = playRound()
-            if (game1 === "player") {
-                console.log("You Win")
-                playerWins = playerWins + 1
-            } else if (game1 === "computer") {
-                console.log("You Lose")
-                computerWins = computerWins + 1
-            } else {
-                console.log("Draw")
-            }
-
-            game1 = playRound()
-            if (game1 === "player") {
-                console.log("You Win")
-                playerWins = playerWins + 1
-            } else if (game1 === "computer") {
-                console.log("You Lose")
-                computerWins = computerWins + 1
-            } else {
-                console.log("Draw")
-            }
-
-            game1 = playRound()
-            if (game1 === "player") {
-                console.log("You Win")
-                playerWins = playerWins + 1
-            } else if (game1 === "computer") {
-                console.log("You Lose")
-                computerWins = computerWins + 1
-            } else {
-                console.log("Draw")
-            }
-
-            game1 = playRound()
-            if (game1 === "player") {
-                console.log("You Win")
-                playerWins = playerWins + 1
-            } else if (game1 === "computer") {
-                console.log("You Lose")
-                computerWins = computerWins + 1
-            } else {
-                console.log("Draw")
-            }
-
-            game1 = playRound()
-            if (game1 === "player") {
-                console.log("You Win")
-                playerWins = playerWins + 1
-            } else if (game1 === "computer") {
-                console.log("You Lose")
-                computerWins = computerWins + 1
-            } else {
-                console.log("Draw")
-            }
-
-            // Checking for the winner 
-            if (playerWins > computerWins) {
-                console.log("YOU WIN THE GAME")
-            } else if (playerWins < computerWins) {
-                console.log("YOU LOSE THE GAME")
-            } else {
-                console.log("THE GAME IS DRAWED")
-            }
+                if (computerWins >= 5) {
+                    div.textContent = 'Match ended. Computer wins!!';
+                    let roundResult = document.querySelector('#roundResult')
+                    roundResult.textContent = '';
+                    disableButtons()
+                } else if (playerWins >= 5) {
+                    div.textContent = 'Match ended. Player wins'
+                    let roundResult = document.querySelector('#roundResult')
+                    roundResult.textContent = '';
+                    disableButtons()
+                }
+            }) 
         }
-
-        game()
-
     </script>
 </body>
 </html>
